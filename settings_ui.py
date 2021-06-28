@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import os
+import os, config_handler as ch
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
@@ -16,8 +16,10 @@ winHeight = 454
 
 class Ui_Dialog(QDialog):
     def __init__(self, parent=None):
-        # Передаём ссылку на родительский элемент и чтобы виджет
-        # отображался как самостоятельное окно указываем тип окна
+        """
+        Передаём ссылку на родительский элемент и чтобы виджет
+        отображался как самостоятельное окно указываем тип окна
+        """
         super().__init__(parent, Qt.Dialog)
         self.setupUi()
     def setupUi(self):
@@ -28,9 +30,33 @@ class Ui_Dialog(QDialog):
         self.verticalLayout.setObjectName("verticalLayout")
 
         self.comboBox = QComboBox()
+
+        """
+        Поиск папки с конфигами в рабочей области приложения
+        """
         configs = []
-        field = os.getcwd()
-        print(field)
+        folder = os.getcwd()
+        folder += "/config"
+        if not os.path.exists(folder):
+                try:
+                        os.mkdir(folder)
+                except OSError:
+                        QMessageBox.critical(self, "Ошибка ", "Создать директорию %s не удалось. Создайте директрорию используя права администратора" % folder, QMessageBox.Ok)
+        
+        """
+        Проверка на существование конфига сделана в config_handler.
+        Создается объект конфига
+        """
+        config = ch.get_config(folder + "/default.config")
+        """
+        Добавление всех существующих конфигов из папки в список
+        Данный список будет выводиться в QComboBox
+        """
+        for config in os.listdir(folder):
+                configs.append(config)
+        self.comboBox.addItems(configs)
+        self.comboBox.setCurrentIndex(-1)
+
         self.verticalLayout.addWidget(self.comboBox)
 
         self.tabWidget = QTabWidget()
@@ -129,7 +155,7 @@ class Ui_Dialog(QDialog):
         debugLayout.addLayout(fieldsLayout2)
 
         mainLayout2.addLayout(debugLayout)
-        mainLayout2.addWidget(QLabel("Настройки  удаленного сервера:"))
+        mainLayout2.addWidget(QLabel("Настройки  подключения:"))
 
 
         serverLayout = QHBoxLayout()
@@ -157,7 +183,7 @@ class Ui_Dialog(QDialog):
 
         self.tab_2.setLayout(mainLayout2)
         self.tab_2.setObjectName("tab_2")
-        self.tabWidget.addTab(self.tab_2, "Настройки подключения и отладки")
+        self.tabWidget.addTab(self.tab_2, "Настройки отладки и подключения")
 ##########################################################
 # Добавление
         self.verticalLayout.addWidget(self.tabWidget)
