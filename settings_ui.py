@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import os, config_handler as ch #,offsetwindow
+import os, config_handler as ch, offsetwindow
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -306,18 +306,19 @@ class Ui_Dialog(QDialog):
             QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.saveDataToCurrent)
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
+        #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
-        self.comboBox.currentText
-##########################################################
-# вызов окна
-#########################################################
+    """
+    Вызов окна, в котором можно изменить текущий отступ по осям
+    """
 
-    # def callOffsetWindow(self):
-    #     if not self.offsetWindow:
-    #         self.offsetWindow = offsetwindow.OffsetWin(self)
-    #         self.offsetWindow.show()
+    def callOffsetWindow(self):
+         if not self.offsetWindow:
+             self.offsetWindow = offsetwindow.OffsetWin(self)
+             self.offsetWindow.show()
         
