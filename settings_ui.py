@@ -6,11 +6,14 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os, config_handler as ch
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 winWidth = 549
 winHeight = 454
+directory = ""
 
 #import offsetwindow
 
@@ -242,7 +245,8 @@ class Ui_Dialog(QDialog):
     #     if not self.offsetWindow:
     #         self.offsetWindow = offsetwindow.OffsetWin(self)
     #         self.offsetWindow.show()
-    def createDestination():
+    def createDestination(self):
+        global directory
         directory = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
-        return directory
+        #print (directory)
          
