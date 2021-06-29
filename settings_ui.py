@@ -6,11 +6,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-<<<<<<< HEAD
 import os, config_handler as ch
-=======
 
->>>>>>> origin/datahandler
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
@@ -55,7 +52,6 @@ class Ui_Dialog(QDialog):
         self.resize(winWidth, winHeight)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-<<<<<<< HEAD
 
         self.comboBox = QComboBox()
 
@@ -87,8 +83,6 @@ class Ui_Dialog(QDialog):
 
         self.verticalLayout.addWidget(self.comboBox)
 
-=======
->>>>>>> origin/datahandler
         self.tabWidget = QTabWidget()
         self.tabWidget.setObjectName("tabWidget")
 ##########################################################
