@@ -6,13 +6,18 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+<<<<<<< HEAD
 import os, config_handler as ch
+=======
+
+>>>>>>> origin/datahandler
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 winWidth = 549
 winHeight = 454
 
+#import offsetwindow
 
 class Ui_Dialog(QDialog):
     def __init__(self, parent=None):
@@ -21,13 +26,36 @@ class Ui_Dialog(QDialog):
         отображался как самостоятельное окно указываем тип окна
         """
         super().__init__(parent, Qt.Dialog)
+        self.offsetWindow = None
         self.setupUi()
+    def SaveData(self):
+            multFieldValue = self.findChild(QLineEdit,"multField").property("text")
+            heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
+            vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
+            OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
+            OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
+            thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
+            thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
+            delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
+            IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
+            portFieldValue = self.findChild(QLineEdit,"portField").property("text")
+            print(multFieldValue)
+            print(heightFieldValue)
+            print(vertStepFieldValue)
+            print(OXLabelValue)
+            print(OYLabelValue)
+            print(thresholdCFFieldValue)
+            print(thresholdСontourFieldValue)
+            print(delayFieldValue)
+            print(IPFieldValue)
+            print(portFieldValue)
     def setupUi(self):
         self.setObjectName("Dialog")
         self.setWindowTitle("Настройки")
         self.resize(winWidth, winHeight)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+<<<<<<< HEAD
 
         self.comboBox = QComboBox()
 
@@ -59,32 +87,37 @@ class Ui_Dialog(QDialog):
 
         self.verticalLayout.addWidget(self.comboBox)
 
+=======
+>>>>>>> origin/datahandler
         self.tabWidget = QTabWidget()
         self.tabWidget.setObjectName("tabWidget")
 ##########################################################
 # Вкладка 1
 ##########################################################
-        
+
         self.tab = QWidget()
         mainLayout1 = QVBoxLayout()
 
-        #Слой для отступа
+        # Слой для отступа
         offsetLayout = QHBoxLayout()
-        #picture
+        # picture
 
         #l = QtGui.QLabel()
-        #l.setPixmap(QtGui.QPixmap("folder.png"))
+        # l.setPixmap(QtGui.QPixmap("folder.png"))
 
         labelLayout = QVBoxLayout()
-        OXLabel = QLabel("OX:")
-        OYLabel = QLabel("OY:")
+        OXLabel = QLabel("OX:228")
+        OXLabel.setObjectName("OXLabel")
+        OYLabel = QLabel("OY:337")
+        OYLabel.setObjectName("OYLabel")
         labelLayout.addWidget(OXLabel)
         labelLayout.addWidget(OYLabel)
         changeOffsetButton = QPushButton("Изменить смещение")
+        #changeOffsetButton.clicked.connect()
         offsetLayout.addLayout(labelLayout)
         offsetLayout.addWidget(changeOffsetButton)
 
-        #Слой для надписей
+        # Слой для надписей
         textLayout = QVBoxLayout()
         multLabel = QLabel("Множитель шага при сканировании:")
         fromLabel = QLabel("Путь к источнику снимков:")
@@ -98,13 +131,16 @@ class Ui_Dialog(QDialog):
         textLayout.addWidget(heightLabel)
         textLayout.addWidget(vertStepLabel)
 
-        #Слой для полей
+        # Слой для полей
         fieldsLayout = QVBoxLayout()
         multField = QLineEdit()
+        multField.setObjectName("multField")
         fromButton = QPushButton("Изменить путь...")
         toButton = QPushButton("Изменить путь...")
         heightField = QLineEdit()
+        heightField.setObjectName("heightField")
         vertStepField = QLineEdit()
+        vertStepField.setObjectName("vertStepField")
 
         fieldsLayout.addWidget(multField)
         fieldsLayout.addWidget(fromButton)
@@ -131,21 +167,24 @@ class Ui_Dialog(QDialog):
 
         debugLayout = QHBoxLayout()
 
-        #Слой для надписей
+        # Слой для надписей
         textLayout2 = QVBoxLayout()
         thresholdCFLabel = QLabel("Порог фильтра Canny:")
         thresholdСontourLabel = QLabel("Порог контура:")
         delayLabel = QLabel("Задержка между шагом:")
-        
+
         textLayout2.addWidget(thresholdCFLabel)
         textLayout2.addWidget(thresholdСontourLabel)
         textLayout2.addWidget(delayLabel)
 
-        #Слой для полей
+        # Слой для полей
         fieldsLayout2 = QVBoxLayout()
         thresholdCFField = QLineEdit()
+        thresholdCFField.setObjectName("thresholdCFField")
         thresholdСontourField = QLineEdit()
+        thresholdСontourField.setObjectName("thresholdСontourField")
         delayField = QLineEdit()
+        delayField.setObjectName("delayField")
 
         fieldsLayout2.addWidget(thresholdCFField)
         fieldsLayout2.addWidget(thresholdСontourField)
@@ -157,10 +196,9 @@ class Ui_Dialog(QDialog):
         mainLayout2.addLayout(debugLayout)
         mainLayout2.addWidget(QLabel("Настройки  подключения:"))
 
-
         serverLayout = QHBoxLayout()
 
-        #Слой для надписей
+        # Слой для надписей
         textLayout3 = QVBoxLayout()
         IPLabel = QLabel("IP: ")
         portLabel = QLabel("port: ")
@@ -168,17 +206,19 @@ class Ui_Dialog(QDialog):
         textLayout3.addWidget(IPLabel)
         textLayout3.addWidget(portLabel)
 
-        #Слой для полей
+        # Слой для полей
         fieldsLayout3 = QVBoxLayout()
         IPField = QLineEdit()
+        IPField.setObjectName("IPField")
         portField = QLineEdit()
+        portField.setObjectName("portField")
 
         fieldsLayout3.addWidget(IPField)
         fieldsLayout3.addWidget(portField)
 
         serverLayout.addLayout(textLayout3)
         serverLayout.addLayout(fieldsLayout3)
-        
+
         mainLayout2.addLayout(serverLayout)
 
         self.tab_2.setLayout(mainLayout2)
@@ -187,14 +227,24 @@ class Ui_Dialog(QDialog):
 ##########################################################
 # Добавление
         self.verticalLayout.addWidget(self.tabWidget)
-#Создание группы кнопок
+# Создание группы кнопок
 ##########################################################
-        #Rнопки выхода из диалогового окна
+        # Rнопки выхода из диалогового окна
         self.buttonBox = QDialogButtonBox()
         self.buttonBox.setLayoutDirection(Qt.LeftToRight)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Apply|QDialogButtonBox.Cancel)
+        self.buttonBox.setStandardButtons(
+            QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)
+        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.SaveData)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
 ##########################################################
+# вызов окна
+#########################################################
+
+    # def callOffsetWindow(self):
+    #     if not self.offsetWindow:
+    #         self.offsetWindow = offsetwindow.OffsetWin(self)
+    #         self.offsetWindow.show()
+        
