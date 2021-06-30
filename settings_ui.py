@@ -13,6 +13,7 @@ from PyQt5.QtCore import *
 
 winWidth = 549
 winHeight = 454
+directory = ""
 
 
 class Ui_Dialog(QDialog):
@@ -183,6 +184,9 @@ class Ui_Dialog(QDialog):
         multField.setObjectName("multField")
         fromButton = QPushButton("Изменить путь...")
         toButton = QPushButton("Изменить путь...")
+        global directory 
+        toButton.clicked.connect(self.createDestination)
+        
         heightField = QLineEdit()
         heightField.setObjectName("heightField")
         vertStepField = QLineEdit()
@@ -310,3 +314,6 @@ class Ui_Dialog(QDialog):
              self.offsetWindow = offsetwindow.OffsetWin(self)
              self.offsetWindow.show()
         
+    def createDestination(self):
+        s.directory = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+         
