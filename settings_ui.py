@@ -7,7 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 import os, config_handler as ch, offsetwindow, settings as s
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
@@ -15,6 +14,29 @@ winWidth = 549
 winHeight = 454
 directory = ""
 
+class Ui_Form(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.verticalLayout = QVBoxLayout(self)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QLabel("Вы действительно хотите применить изменения?")
+        self.label.setLayoutDirection(Qt.LeftToRight)
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.buttonBox = QDialogButtonBox(self)
+        self.buttonBox.setEnabled(True)
+        self.buttonBox.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Apply|QDialogButtonBox.Cancel)
+        self.buttonBox.setCenterButtons(True)
+        self.buttonBox.setObjectName("buttonBox")
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept)
+        #self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(Ui_Dialog().saveDataToCurrent())
+        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.reject)
+        self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.reject)
+        self.verticalLayout.addWidget(self.buttonBox)
+        self.setWindowTitle("Предупреждение")
+     
 
 class Ui_Dialog(QDialog):
 
@@ -27,6 +49,7 @@ class Ui_Dialog(QDialog):
         self.setWindowFlag(Qt.Dialog)
         self.offsetWindow = None
         self.setupUi()
+
     def saveDataToCurrent(self):
             """
             Сохранение введенных пользователем данных в выбранный конфиг
@@ -87,7 +110,9 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
-
+    def diagWindowApply(self):
+        dialog = Ui_Form(self)
+        dialog.exec_()
     def setupUi(self):
         global folder
         self.setObjectName("Dialog")
@@ -289,13 +314,13 @@ class Ui_Dialog(QDialog):
         # Rнопки выхода из диалогового окна
         self.buttonBox = QDialogButtonBox()
         self.buttonBox.setLayoutDirection(Qt.LeftToRight)
-        self.buttonBox.setStandardButtons(
-            QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)          
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.saveDataToCurrent)
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
         #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
-        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
+         #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
@@ -313,4 +338,8 @@ class Ui_Dialog(QDialog):
         s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))
     def loadDestination(self):
         s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
-         
+
+
+
+
+        
