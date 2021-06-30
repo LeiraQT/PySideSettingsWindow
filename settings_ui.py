@@ -10,7 +10,7 @@ import os, config_handler as ch, offsetwindow, settings as s
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 winWidth = 549
 winHeight = 454
 directory = ""
@@ -27,6 +27,7 @@ class Ui_Dialog(QDialog):
         self.setWindowFlag(Qt.Dialog)
         self.offsetWindow = None
         self.setupUi()
+    
     def saveDataToCurrent(self):
             """
             Сохранение введенных пользователем данных в выбранный конфиг
@@ -57,6 +58,25 @@ class Ui_Dialog(QDialog):
 
             ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
             ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+            
+    def diagWindowApply(self):
+        self.setObjectName("Form")
+        self.resize(413, 130)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Form)
+        self.buttonBox.setEnabled(True)
+        self.buttonBox.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Cancel)
+        self.buttonBox.setCenterButtons(True)
+        self.buttonBox.setObjectName("buttonBox")
+        self.verticalLayout.addWidget(self.buttonBox)
+
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
@@ -295,7 +315,8 @@ class Ui_Dialog(QDialog):
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
         #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
-        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
+        #self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
