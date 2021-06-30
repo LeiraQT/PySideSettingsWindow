@@ -89,7 +89,6 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
 
     def setupUi(self):
-        global folder
         self.setObjectName("Dialog")
         self.setWindowTitle("Настройки")
         self.resize(winWidth, winHeight)
@@ -151,7 +150,7 @@ class Ui_Dialog(QDialog):
         labelLayout.addWidget(OXLabel)
         labelLayout.addWidget(OYLabel)
         changeOffsetButton = QPushButton("Изменить смещение")
-        #changeOffsetButton.clicked.connect()
+        changeOffsetButton.clicked.connect(self.callOffsetWindow)
         offsetLayout.addLayout(labelLayout)
         offsetLayout.addWidget(changeOffsetButton)
 
@@ -300,14 +299,15 @@ class Ui_Dialog(QDialog):
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
+        self.loadDataFromCurrent()
     """
     Вызов окна, в котором можно изменить текущий отступ по осям
     """
 
     def callOffsetWindow(self):
-         if not self.offsetWindow:
-             self.offsetWindow = offsetwindow.OffsetWin(self)
-             self.offsetWindow.show()
+        if not self.offsetWindow:
+            self.offsetWindow = offsetwindow.Ui_Dialog(self)
+            self.offsetWindow.exec()
         
     def createDestination(self):
         s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))

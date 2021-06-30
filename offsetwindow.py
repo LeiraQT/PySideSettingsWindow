@@ -12,7 +12,6 @@ class Ui_Dialog(QDialog):
         """
         super().__init__(parent, Qt.Dialog)
         self.setWindowFlag(Qt.Dialog)
-        self.offsetWindow = None
         self.setupUi()
     def setupUi(self):
         self.setObjectName("InnerDialog")
@@ -20,6 +19,14 @@ class Ui_Dialog(QDialog):
         self.move(300, 300) # положение окна
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+
+        # picture
+
+        #l = QtGui.QLabel()
+        # l.setPixmap(QtGui.QPixmap("folder.png"))
+
+        #self.pictureBox = 
+
         self.buttonBox = QDialogButtonBox()
         self.buttonBox.setLayoutDirection(Qt.LeftToRight)
         self.buttonBox.setStandardButtons(
@@ -29,5 +36,6 @@ class Ui_Dialog(QDialog):
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
+
         self.setLayout(self.verticalLayout)
 
