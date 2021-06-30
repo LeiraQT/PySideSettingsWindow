@@ -1,0 +1,2 @@
+/home/user/Desktop/python/PySideSettingsWindow
+/home/user/Desktop/python
