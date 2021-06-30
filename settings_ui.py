@@ -87,6 +87,20 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
+    """
+    Вызов окна, в котором можно изменить текущий отступ по осям
+    """
+
+    def callOffsetWindow(self):
+        if not self.offsetWindow:
+            self.offsetWindow = offsetwindow.Ui_Dialog(self)
+            self.offsetWindow.exec()
+        
+    def createDestination(self):
+        s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))
+    def loadDestination(self):
+        s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
+         
 
     def setupUi(self):
         self.setObjectName("Dialog")
@@ -300,17 +314,4 @@ class Ui_Dialog(QDialog):
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
         self.loadDataFromCurrent()
-    """
-    Вызов окна, в котором можно изменить текущий отступ по осям
-    """
 
-    def callOffsetWindow(self):
-        if not self.offsetWindow:
-            self.offsetWindow = offsetwindow.Ui_Dialog(self)
-            self.offsetWindow.exec()
-        
-    def createDestination(self):
-        s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))
-    def loadDestination(self):
-        s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
-         
