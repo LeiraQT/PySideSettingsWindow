@@ -57,9 +57,6 @@ class Ui_Dialog(QDialog):
 
             ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
             ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
-            
-            s.directory = "lllLllL"
-            print(s.directory)
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
@@ -91,8 +88,6 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
 
-        
-        print(folder)
     def setupUi(self):
         global folder
         self.setObjectName("Dialog")
@@ -149,9 +144,9 @@ class Ui_Dialog(QDialog):
         # l.setPixmap(QtGui.QPixmap("folder.png"))
 
         labelLayout = QVBoxLayout()
-        OXLabel = QLabel("OX:228")
+        OXLabel = QLabel("OX:")
         OXLabel.setObjectName("OXLabel")
-        OYLabel = QLabel("OY:337")
+        OYLabel = QLabel("OY:")
         OYLabel.setObjectName("OYLabel")
         labelLayout.addWidget(OXLabel)
         labelLayout.addWidget(OYLabel)
@@ -183,8 +178,8 @@ class Ui_Dialog(QDialog):
         multField = QLineEdit()
         multField.setObjectName("multField")
         fromButton = QPushButton("Изменить путь...")
+        fromButton.clicked.connect(self.loadDestination)
         toButton = QPushButton("Изменить путь...")
-        global directory 
         toButton.clicked.connect(self.createDestination)
         
         heightField = QLineEdit()
@@ -315,5 +310,7 @@ class Ui_Dialog(QDialog):
              self.offsetWindow.show()
         
     def createDestination(self):
-        s.directory = str(QFileDialog.getExistingDirectory(self, "Select Directory"))
+        s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))
+    def loadDestination(self):
+        s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
          

@@ -42,15 +42,17 @@ def get_config(path):
  
 def get_setting(path, section, setting):
     """
-    Печатает настройку setting из секции section
+    Выдает (и при необходимости печатает) настройку setting из секции section
     """
     config = get_config(path)
     value = config.get(section, setting)
+    """
     msg = "{section} {setting} is {value}".format(
         section=section, setting=setting, value=value
     )
     
     print(msg)
+    """
     return value
  
  

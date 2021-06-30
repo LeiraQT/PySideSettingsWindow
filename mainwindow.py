@@ -33,10 +33,10 @@ class MainWindow(QMainWindow): # главное окно
     def callAnotherWidget(self):
         if not self.secondWin:
             self.secondWin = settings_ui.Ui_Dialog(self)
+        self.secondWin.setModal(True)
         self.secondWin.show()
-
-
-
+        print(s.createDirectory)
+        print(s.loadDirectory)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
