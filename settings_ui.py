@@ -6,24 +6,13 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-import os, config_handler as ch, offsetwindow
+import os, config_handler as ch, offsetwindow, settings as s
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 winWidth = 549
 winHeight = 454
-
-multFieldValue = ""
-heightFieldValue = ""
-vertStepFieldValue = ""
-OXLabelValue = ""
-OYLabelValue = ""
-thresholdCFFieldValue = ""
-thresholdСontourFieldValue = ""
-delayFieldValue = ""
-IPFieldValue = ""
-portFieldValue = ""
 
 
 class Ui_Dialog(QDialog):
@@ -41,66 +30,65 @@ class Ui_Dialog(QDialog):
             """
             Сохранение введенных пользователем данных в выбранный конфиг
             """
-            global multFieldValue, heightFieldValue, vertStepFieldValue, OXLabelValue, OYLabelValue
-            global thresholdCFFieldValue, thresholdСontourFieldValue, delayFieldValue, IPFieldValue, portFieldValue
 
             path = os.getcwd() + "/config/" + self.comboBox.currentText()
 
-            multFieldValue = self.findChild(QLineEdit,"multField").property("text")
-            heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
-            vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
-            OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
-            OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
-            thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
-            thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
-            delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
-            IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
-            portFieldValue = self.findChild(QLineEdit,"portField").property("text")
+            s.multFieldValue = self.findChild(QLineEdit,"multField").property("text")
+            s.heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
+            s.vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
+            s.OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
+            s.OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
+            s.thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
+            s.thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
+            s.delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
+            s.IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
+            s.portFieldValue = self.findChild(QLineEdit,"portField").property("text")
 
-            ch.update_setting(path, "Offset settings", "multiplier", multFieldValue)
-            ch.update_setting(path, "Offset settings", "height", heightFieldValue)
-            ch.update_setting(path, "Offset settings", "vertical step", vertStepFieldValue)
-            ch.update_setting(path, "Offset settings", "OX", OXLabelValue)
-            ch.update_setting(path, "Offset settings", "OY", OYLabelValue)
+            ch.update_setting(path, "Offset settings", "multiplier", s.multFieldValue)
+            ch.update_setting(path, "Offset settings", "height", s.heightFieldValue)
+            ch.update_setting(path, "Offset settings", "vertical step", s.vertStepFieldValue)
+            ch.update_setting(path, "Offset settings", "OX", s.OXLabelValue)
+            ch.update_setting(path, "Offset settings", "OY", s.OYLabelValue)
 
-            ch.update_setting(path, "Debug settings", "threshold canny filter", thresholdCFFieldValue)
-            ch.update_setting(path, "Debug settings", "threshold contour", thresholdСontourFieldValue)
-            ch.update_setting(path, "Debug settings", "delay", delayFieldValue)
+            ch.update_setting(path, "Debug settings", "threshold canny filter", s.thresholdCFFieldValue)
+            ch.update_setting(path, "Debug settings", "threshold contour", s.thresholdСontourFieldValue)
+            ch.update_setting(path, "Debug settings", "delay", s.delayFieldValue)
 
-            ch.update_setting(path, "Connection settings", "IP", IPFieldValue)
-            ch.update_setting(path, "Connection settings", "port", portFieldValue)
+            ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
+            ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+            
+            s.directory = "lllLllL"
+            print(s.directory)
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
         """
-        global multFieldValue, heightFieldValue, vertStepFieldValue, OXLabelValue, OYLabelValue
-        global thresholdCFFieldValue, thresholdСontourFieldValue, delayFieldValue, IPFieldValue, portFieldValue
 
         path = os.getcwd() + "/config/" + self.comboBox.currentText()
 
-        multFieldValue = ch.get_setting(path, "Offset settings", "multiplier")
-        heightFieldValue = ch.get_setting(path, "Offset settings", "height")
-        vertStepFieldValue = ch.get_setting(path, "Offset settings", "vertical step")
-        OXLabelValue = ch.get_setting(path, "Offset settings", "OX")
-        OYLabelValue = ch.get_setting(path, "Offset settings", "OY")
+        s.multFieldValue = ch.get_setting(path, "Offset settings", "multiplier")
+        s.heightFieldValue = ch.get_setting(path, "Offset settings", "height")
+        s.vertStepFieldValue = ch.get_setting(path, "Offset settings", "vertical step")
+        s.OXLabelValue = ch.get_setting(path, "Offset settings", "OX")
+        s.OYLabelValue = ch.get_setting(path, "Offset settings", "OY")
 
-        thresholdCFFieldValue = ch.get_setting(path, "Debug settings", "threshold canny filter")
-        thresholdСontourFieldValue = ch.get_setting(path, "Debug settings", "threshold contour")
-        delayFieldValue = ch.get_setting(path, "Debug settings", "delay")
+        s.thresholdCFFieldValue = ch.get_setting(path, "Debug settings", "threshold canny filter")
+        s.thresholdСontourFieldValue = ch.get_setting(path, "Debug settings", "threshold contour")
+        s.delayFieldValue = ch.get_setting(path, "Debug settings", "delay")
 
-        IPFieldValue = ch.get_setting(path, "Connection settings", "IP")
-        portFieldValue = ch.get_setting(path, "Connection settings", "port")
+        s.IPFieldValue = ch.get_setting(path, "Connection settings", "IP")
+        s.portFieldValue = ch.get_setting(path, "Connection settings", "port")
 
-        self.findChild(QLineEdit,"multField").setProperty("text", multFieldValue)
-        self.findChild(QLineEdit,"heightField").setProperty("text", heightFieldValue)
-        self.findChild(QLineEdit,"vertStepField").setProperty("text", vertStepFieldValue)
-        self.findChild(QLabel,"OXLabel").setProperty("text", "OX:" + OXLabelValue)
-        self.findChild(QLabel,"OYLabel").setProperty("text", "OY:" + OYLabelValue)
-        self.findChild(QLineEdit,"thresholdCFField").setProperty("text", thresholdCFFieldValue)
-        self.findChild(QLineEdit,"thresholdСontourField").setProperty("text", thresholdСontourFieldValue)
-        self.findChild(QLineEdit,"delayField").setProperty("text", delayFieldValue)
-        self.findChild(QLineEdit,"IPField").setProperty("text", IPFieldValue)
-        self.findChild(QLineEdit,"portField").setProperty("text", portFieldValue)
+        self.findChild(QLineEdit,"multField").setProperty("text", s.multFieldValue)
+        self.findChild(QLineEdit,"heightField").setProperty("text", s.heightFieldValue)
+        self.findChild(QLineEdit,"vertStepField").setProperty("text", s.vertStepFieldValue)
+        self.findChild(QLabel,"OXLabel").setProperty("text", "OX:" + s.OXLabelValue)
+        self.findChild(QLabel,"OYLabel").setProperty("text", "OY:" + s.OYLabelValue)
+        self.findChild(QLineEdit,"thresholdCFField").setProperty("text", s.thresholdCFFieldValue)
+        self.findChild(QLineEdit,"thresholdСontourField").setProperty("text", s.thresholdСontourFieldValue)
+        self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
+        self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
+        self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
 
         
         print(folder)
