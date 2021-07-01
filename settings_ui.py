@@ -31,12 +31,34 @@ class Ui_Form(QDialog):
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept)
-        #self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(Ui_Dialog().saveDataToCurrent())
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(Ui_Dialog().saveDataToCurrent)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.reject)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.reject)
         self.verticalLayout.addWidget(self.buttonBox)
         self.setWindowTitle("Предупреждение")
-     
+
+class Ui_Form2(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.verticalLayout = QVBoxLayout(self)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QLabel("Укажите название новой конфигурации:")
+        self.label.setLayoutDirection(Qt.LeftToRight)
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.buttonBox = QDialogButtonBox(self)
+        self.buttonBox.setEnabled(True)
+        self.buttonBox.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Apply)
+        self.buttonBox.setCenterButtons(True)
+        self.buttonBox.setObjectName("buttonBox")
+        obj = QLineEdit()
+        self.verticalLayout.addWidget(obj)
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept)
+        self.verticalLayout.addWidget(self.buttonBox)
+        self.setWindowTitle("Предупреждение")
+          
 
 class Ui_Dialog(QDialog):
 
@@ -51,35 +73,36 @@ class Ui_Dialog(QDialog):
         self.setupUi()
 
     def saveDataToCurrent(self):
-            """
-            Сохранение введенных пользователем данных в выбранный конфиг
-            """
+        """
+        Сохранение введенных пользователем данных в выбранный конфиг
+        """
 
-            path = os.getcwd() + "/config/" + self.comboBox.currentText()
+        path = os.getcwd() + "/config/" + self.comboBox.currentText()
 
-            s.multFieldValue = self.findChild(QLineEdit,"multField").property("text")
-            s.heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
-            s.vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
-            s.OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
-            s.OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
-            s.thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
-            s.thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
-            s.delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
-            s.IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
-            s.portFieldValue = self.findChild(QLineEdit,"portField").property("text")
+        s.multFieldValue = self.findChild(QLineEdit,"multField").property("text")
+        s.heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
+        s.vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
+        s.OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
+        s.OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
+        s.thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
+        s.thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
+        s.delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
+        s.IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
+        s.portFieldValue = self.findChild(QLineEdit,"portField").property("text")
 
-            ch.update_setting(path, "Offset settings", "multiplier", s.multFieldValue)
-            ch.update_setting(path, "Offset settings", "height", s.heightFieldValue)
-            ch.update_setting(path, "Offset settings", "vertical step", s.vertStepFieldValue)
-            ch.update_setting(path, "Offset settings", "OX", s.OXLabelValue)
-            ch.update_setting(path, "Offset settings", "OY", s.OYLabelValue)
+        ch.update_setting(path, "Offset settings", "multiplier", s.multFieldValue)
+        ch.update_setting(path, "Offset settings", "height", s.heightFieldValue)
+        ch.update_setting(path, "Offset settings", "vertical step", s.vertStepFieldValue)
+        ch.update_setting(path, "Offset settings", "OX", s.OXLabelValue)
+        ch.update_setting(path, "Offset settings", "OY", s.OYLabelValue)
 
-            ch.update_setting(path, "Debug settings", "threshold canny filter", s.thresholdCFFieldValue)
-            ch.update_setting(path, "Debug settings", "threshold contour", s.thresholdСontourFieldValue)
-            ch.update_setting(path, "Debug settings", "delay", s.delayFieldValue)
+        ch.update_setting(path, "Debug settings", "threshold canny filter", s.thresholdCFFieldValue)
+        ch.update_setting(path, "Debug settings", "threshold contour", s.thresholdСontourFieldValue)
+        ch.update_setting(path, "Debug settings", "delay", s.delayFieldValue)
 
-            ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
-            ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+        ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
+        ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+        
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
@@ -110,8 +133,42 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
+    # def saveDataToNewConfig(self):
+    #     """
+    #     Сохранение введенных пользователем данных в новый конфиг
+    #     """
+
+    #     path = os.getcwd() + "/config/" + self.comboBox.currentText()
+        
+    #     s.multFieldValue = self.findChild(QLineEdit,"multField").property("text")
+    #     s.heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
+    #     s.vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
+    #     s.OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
+    #     s.OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
+    #     s.thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
+    #     s.thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
+    #     s.delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
+    #     s.IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
+    #     s.portFieldValue = self.findChild(QLineEdit,"portField").property("text")
+        
+    #     ch.update_setting(path, "Offset settings", "multiplier", s.multFieldValue)
+    #     ch.update_setting(path, "Offset settings", "height", s.heightFieldValue)
+    #     ch.update_setting(path, "Offset settings", "vertical step", s.vertStepFieldValue)
+    #     ch.update_setting(path, "Offset settings", "OX", s.OXLabelValue)
+    #     ch.update_setting(path, "Offset settings", "OY", s.OYLabelValue)
+
+    #     ch.update_setting(path, "Debug settings", "threshold canny filter", s.thresholdCFFieldValue)
+    #     ch.update_setting(path, "Debug settings", "threshold contour", s.thresholdСontourFieldValue)
+    #     ch.update_setting(path, "Debug settings", "delay", s.delayFieldValue)
+
+    #     ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
+    #     ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+
     def diagWindowApply(self):
         dialog = Ui_Form(self)
+        dialog.exec_()
+    def diagWindowSave(self):
+        dialog = Ui_Form2(self)
         dialog.exec_()
     def setupUi(self):
         global folder
@@ -317,6 +374,7 @@ class Ui_Dialog(QDialog):
         self.buttonBox.setStandardButtons(QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)          
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.saveDataToCurrent)
+        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.diagWindowSave)
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
         #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
