@@ -37,27 +37,28 @@ class Ui_Form(QDialog):
         self.verticalLayout.addWidget(self.buttonBox)
         self.setWindowTitle("Предупреждение")
 
-class Ui_Form2(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.verticalLayout = QVBoxLayout(self)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QLabel("Укажите название новой конфигурации:")
-        self.label.setLayoutDirection(Qt.LeftToRight)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
-        self.buttonBox = QDialogButtonBox(self)
-        self.buttonBox.setEnabled(True)
-        self.buttonBox.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Apply)
-        self.buttonBox.setCenterButtons(True)
-        self.buttonBox.setObjectName("buttonBox")
-        obj = QLineEdit()
-        self.verticalLayout.addWidget(obj)
-        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept)
-        self.verticalLayout.addWidget(self.buttonBox)
-        self.setWindowTitle("Предупреждение")
+
+# class Ui_Form2(QDialog):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
+#         self.verticalLayout = QVBoxLayout(self)
+#         self.verticalLayout.setObjectName("verticalLayout")
+#         self.label = QLabel("Укажите название новой конфигурации:")
+#         self.label.setLayoutDirection(Qt.LeftToRight)
+#         self.label.setAlignment(Qt.AlignCenter)
+#         self.label.setObjectName("label")
+#         self.verticalLayout.addWidget(self.label)
+#         self.buttonBox = QDialogButtonBox(self)
+#         self.buttonBox.setEnabled(True)
+#         self.buttonBox.setContextMenuPolicy(Qt.CustomContextMenu)
+#         self.buttonBox.setStandardButtons(QDialogButtonBox.Apply)
+#         self.buttonBox.setCenterButtons(True)
+#         self.buttonBox.setObjectName("buttonBox")
+#         obj = QLineEdit()
+#         self.verticalLayout.addWidget(obj)
+#         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept)
+#         self.verticalLayout.addWidget(self.buttonBox)
+#         self.setWindowTitle("Предупреждение")
           
 
 class Ui_Dialog(QDialog):
@@ -71,7 +72,6 @@ class Ui_Dialog(QDialog):
         self.setWindowFlag(Qt.Dialog)
         self.offsetWindow = None
         self.setupUi()
-<<<<<<< HEAD
 
     def saveDataToCurrent(self):
         """
@@ -104,9 +104,8 @@ class Ui_Dialog(QDialog):
         ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
         ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
         
-=======
     
-    def saveDataToCurrent(self):
+    def saveDataToCurrent(self, path=os.getcwd()+"/config/"):
             """
             Сохранение введенных пользователем данных в выбранный конфиг
             """
@@ -137,25 +136,7 @@ class Ui_Dialog(QDialog):
             ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
             ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
             
-    def diagWindowApply(self):
-        self.setObjectName("Form")
-        self.resize(413, 130)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(Form)
-        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Form)
-        self.buttonBox.setEnabled(True)
-        self.buttonBox.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Cancel)
-        self.buttonBox.setCenterButtons(True)
-        self.buttonBox.setObjectName("buttonBox")
-        self.verticalLayout.addWidget(self.buttonBox)
 
->>>>>>> master
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
@@ -186,12 +167,7 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
-<<<<<<< HEAD
-    # def saveDataToNewConfig(self):
-    #     """
-    #     Сохранение введенных пользователем данных в новый конфиг
-    #     """
-=======
+
     """
     Вызов окна, в котором можно изменить текущий отступ по осям
     """
@@ -206,7 +182,10 @@ class Ui_Dialog(QDialog):
     def loadDestination(self):
         s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
          
->>>>>>> master
+    # def saveDataToNewConfig(self):
+    #     """
+    #     Сохранение введенных пользователем данных в новый конфиг
+    #     """
 
     #     path = os.getcwd() + "/config/" + self.comboBox.currentText()
         
@@ -237,9 +216,26 @@ class Ui_Dialog(QDialog):
     def diagWindowApply(self):
         dialog = Ui_Form(self)
         dialog.exec_()
-    def diagWindowSave(self):
-        dialog = Ui_Form2(self)
-        dialog.exec_()
+
+    def initDialogWindowSave(self):
+        self.btn = QPushButton('Dialog', self)
+        self.btn.move(20, 20)
+        self.btn.clicked.connect(self.showDialogWindowSave)
+
+        self.le = QLineEdit(self)
+        self.le.move(130, 22)
+
+        self.setGeometry(300, 300, 290, 150)
+        self.setWindowTitle('Предупреждение')
+        self.show()
+    def showDialogWindowSave(self):
+        text, ok = QInputDialog.getText(self, 'Предупреждение','Укажите название новой конфигурации:')
+        if ok:
+            self.le.setText(str(text))
+
+    # def diagWindowSave(self):
+    #     dialog = Ui_Form2(self)
+    #     dialog.exec_()
     def setupUi(self):
         self.setObjectName("Dialog")
         self.setWindowTitle("Настройки")
@@ -443,23 +439,18 @@ class Ui_Dialog(QDialog):
         self.buttonBox.setStandardButtons(QDialogButtonBox.Apply | QDialogButtonBox.Save | QDialogButtonBox.Cancel)          
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.saveDataToCurrent)
-        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.diagWindowSave)
+        self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.showDialogWindowSave)
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
         #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
-<<<<<<< HEAD
-         #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
-=======
-        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
+        #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
         #self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
->>>>>>> master
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
         self.loadDataFromCurrent()
 
-<<<<<<< HEAD
     def callOffsetWindow(self):
          if not self.offsetWindow:
              self.offsetWindow = offsetwindow.OffsetWin(self)
@@ -474,5 +465,3 @@ class Ui_Dialog(QDialog):
 
 
         
-=======
->>>>>>> master

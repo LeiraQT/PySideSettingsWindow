@@ -35,6 +35,10 @@ class MainWindow(QMainWindow): # главное окно
             self.secondWin = settings_ui.Ui_Dialog(self)
             self.secondWin.setModal(True)
             self.secondWin.show()
+            
+        else:
+            self.secondWin.setModal(True)
+            self.secondWin.show()
             print(s.createDirectory)
             print(s.loadDirectory)
 
