@@ -9,7 +9,7 @@
 import os, config_handler as ch, offsetwindow, settings as s
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 winWidth = 549
 winHeight = 454
 directory = ""
@@ -71,6 +71,7 @@ class Ui_Dialog(QDialog):
         self.setWindowFlag(Qt.Dialog)
         self.offsetWindow = None
         self.setupUi()
+<<<<<<< HEAD
 
     def saveDataToCurrent(self):
         """
@@ -103,6 +104,58 @@ class Ui_Dialog(QDialog):
         ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
         ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
         
+=======
+    
+    def saveDataToCurrent(self):
+            """
+            Сохранение введенных пользователем данных в выбранный конфиг
+            """
+
+            path = os.getcwd() + "/config/" + self.comboBox.currentText()
+
+            s.multFieldValue = self.findChild(QLineEdit,"multField").property("text")
+            s.heightFieldValue = self.findChild(QLineEdit,"heightField").property("text")
+            s.vertStepFieldValue = self.findChild(QLineEdit,"vertStepField").property("text")
+            s.OXLabelValue = self.findChild(QLabel,"OXLabel").property("text").split(":")[1]
+            s.OYLabelValue = self.findChild(QLabel,"OYLabel").property("text").split(":")[1]
+            s.thresholdCFFieldValue = self.findChild(QLineEdit,"thresholdCFField").property("text")
+            s.thresholdСontourFieldValue = self.findChild(QLineEdit,"thresholdСontourField").property("text")
+            s.delayFieldValue = self.findChild(QLineEdit,"delayField").property("text")
+            s.IPFieldValue = self.findChild(QLineEdit,"IPField").property("text")
+            s.portFieldValue = self.findChild(QLineEdit,"portField").property("text")
+
+            ch.update_setting(path, "Offset settings", "multiplier", s.multFieldValue)
+            ch.update_setting(path, "Offset settings", "height", s.heightFieldValue)
+            ch.update_setting(path, "Offset settings", "vertical step", s.vertStepFieldValue)
+            ch.update_setting(path, "Offset settings", "OX", s.OXLabelValue)
+            ch.update_setting(path, "Offset settings", "OY", s.OYLabelValue)
+
+            ch.update_setting(path, "Debug settings", "threshold canny filter", s.thresholdCFFieldValue)
+            ch.update_setting(path, "Debug settings", "threshold contour", s.thresholdСontourFieldValue)
+            ch.update_setting(path, "Debug settings", "delay", s.delayFieldValue)
+
+            ch.update_setting(path, "Connection settings", "IP", s.IPFieldValue)
+            ch.update_setting(path, "Connection settings", "port", s.portFieldValue)
+            
+    def diagWindowApply(self):
+        self.setObjectName("Form")
+        self.resize(413, 130)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Form)
+        self.buttonBox.setEnabled(True)
+        self.buttonBox.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Cancel)
+        self.buttonBox.setCenterButtons(True)
+        self.buttonBox.setObjectName("buttonBox")
+        self.verticalLayout.addWidget(self.buttonBox)
+
+>>>>>>> master
     def loadDataFromCurrent(self):
         """
         Загрузка данных из выбранного конфига в окно
@@ -133,10 +186,27 @@ class Ui_Dialog(QDialog):
         self.findChild(QLineEdit,"delayField").setProperty("text", s.delayFieldValue)
         self.findChild(QLineEdit,"IPField").setProperty("text", s.IPFieldValue)
         self.findChild(QLineEdit,"portField").setProperty("text", s.portFieldValue)
+<<<<<<< HEAD
     # def saveDataToNewConfig(self):
     #     """
     #     Сохранение введенных пользователем данных в новый конфиг
     #     """
+=======
+    """
+    Вызов окна, в котором можно изменить текущий отступ по осям
+    """
+
+    def callOffsetWindow(self):
+        if not self.offsetWindow:
+            self.offsetWindow = offsetwindow.Ui_Dialog(self)
+            self.offsetWindow.exec()
+        
+    def createDestination(self):
+        s.createDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, куда сохранять результат"))
+    def loadDestination(self):
+        s.loadDirectory = str(QFileDialog.getExistingDirectory(self, "Выберите папку, откуда будут загружаться файлы"))
+         
+>>>>>>> master
 
     #     path = os.getcwd() + "/config/" + self.comboBox.currentText()
         
@@ -171,7 +241,6 @@ class Ui_Dialog(QDialog):
         dialog = Ui_Form2(self)
         dialog.exec_()
     def setupUi(self):
-        global folder
         self.setObjectName("Dialog")
         self.setWindowTitle("Настройки")
         self.resize(winWidth, winHeight)
@@ -233,7 +302,7 @@ class Ui_Dialog(QDialog):
         labelLayout.addWidget(OXLabel)
         labelLayout.addWidget(OYLabel)
         changeOffsetButton = QPushButton("Изменить смещение")
-        #changeOffsetButton.clicked.connect()
+        changeOffsetButton.clicked.connect(self.callOffsetWindow)
         offsetLayout.addLayout(labelLayout)
         offsetLayout.addWidget(changeOffsetButton)
 
@@ -378,15 +447,19 @@ class Ui_Dialog(QDialog):
         #Вместо self.reject можно вставить свою функцию, которая также будет отправлять сигнал reject
         #TODO - переделать кнопки в отдельные объекты
         self.buttonBox.rejected.connect(self.reject)
+<<<<<<< HEAD
          #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
+=======
+        self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.diagWindowApply)
+        #self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.accept) #ВЫЗЫВАТЬ ОКНО ПОДТВЕРЖДЕНИЯ "Введные вами данные могут изменить config. Вы уверены? yn"
+>>>>>>> master
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout.addWidget(self.buttonBox)
         self.setLayout(self.verticalLayout)
-    """
-    Вызов окна, в котором можно изменить текущий отступ по осям
-    """
+        self.loadDataFromCurrent()
 
+<<<<<<< HEAD
     def callOffsetWindow(self):
          if not self.offsetWindow:
              self.offsetWindow = offsetwindow.OffsetWin(self)
@@ -401,3 +474,5 @@ class Ui_Dialog(QDialog):
 
 
         
+=======
+>>>>>>> master
